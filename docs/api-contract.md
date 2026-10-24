@@ -80,7 +80,7 @@ Successful response: `201 Created` with the complete created issue.
 }
 ```
 
-Errors: `400`, `415`, `500`.
+Errors: `400`, `403`, `415`, `500`.
 
 ## Contract 3: Change Issue Status
 
@@ -126,6 +126,14 @@ Every error response uses the same JSON shape:
 | Status | Code | Returned when |
 |---|---|---|
 | 400 | VALIDATION_ERROR | The data sent is missing, malformed or breaks a rule. |
+| 404 | ISSUE_NOT_FOUND | The id in the URL does not exist. |
 | 404 | ROUTE_NOT_FOUND | The method and path do not match any endpoint. |
 | 415 | UNSUPPORTED_MEDIA_TYPE | The body is not JSON although the endpoint requires JSON. |
 | 500 | INTERNAL_ERROR | Something unexpected failed on the server. |
+
+## Utility endpoints (Lab 5)
+
+| Request | Response | Purpose |
+|---|---|---|
+| `GET /` | 200 `{ name, endpoints }` | Shows that the API is online when its Vercel URL is opened in a browser. |
+| `GET /api/health` | 200 `{ status: "ok", environment }` | Confirms a deployment is running without touching the database. |

@@ -1,7 +1,8 @@
 # Lab 3 — Cloud Issue Tracker Architecture
 
 ## 1. Application Goal
-A small internal web application for reporting technical issues, viewing all reported issues and changing their status.
+A small internal application where users report technical issues, see every reported issue, and mark issues as resolved or reopen them.
+
 ## 2. Functional Scope
 - Create an issue.
 - View all issues.
@@ -9,62 +10,39 @@ A small internal web application for reporting technical issues, viewing all rep
 
 ## 3. Request Flow
 
-CREATE ISSUE:
-
+**Create issue**
+```
 User → Frontend form → POST /api/issues → API validation → Data layer
- ← Render created issue ← 201 + JSON ←───────────────┘
+     ← Render created issue ← 201 + JSON ←───────────────────────┘
+```
+1. The user fills in the form and clicks Submit.
+2. The frontend sends `POST /api/issues` with the form data as JSON.
+3. The API validates the data. If invalid, it returns 400 and an error message.
+4. The data layer stores the issue and gives it an id, status `Open` and `createdAt`.
+5. The API replies 201 Created with the new issue as JSON.
+6. The frontend shows the new issue.
 
-Explanation:
-- The user fills in the form (title, description) and clicks Submit.
-- The frontend sends POST /api/issues with the form data as JSON.
-- The API validates the data (title present, length limits). If invalid, it stops and returns code 400 and an error message.
-- The data layer stores the issue, gives it an id and status "open".
-- The API replies 201 Created and the new issue as JSON.
-- The frontend adds the new issue to the list on screen.
-
-VIEW ISSUES
-
+**View issues**
+```
 Page load → GET /api/issues → API → Data layer
- ← Render list ← 200 + JSON array ←───┘
+          ← Render list ← 200 + JSON array ←┘
+```
 
-Explanation:
-- The page loads and the frontend sends GET /api/issues.
-- The API asks the data layer for every stored issue.
-- The API replies 200 OK and the JSON array (empty array if none).
-- The frontend renders one row/card per issue, or "No issues yet" when the array is empty.
-
-CHANGE STATUS
-
+**Change status**
+```
 Button → PATCH /api/issues/{id}/status → API validation → Data layer
- ← Re-render issue ← 200 + updated JSON ←──────────┘
-
-Explanation:
-- The user clicks a status button on one issue.
-- The frontend sends PATCH /api/issues/{id}/status with a body such as {"status": "in_progress"}.
-- The API validates two things:
-  - the issue {id} exists (otherwise 404 Not Found)
-  - the new status is an allowed value (otherwise 400 Bad Request)
-- The data layer updates only the status field of that issue.
-- The API replies 200 OK and the full updated issue as JSON.
-- The frontend re-renders that one issue with its new status.
+       ← Re-render issue ← 200 + updated JSON ←───────────────┘
+```
+The API checks that the issue exists (otherwise 404) and that the new status is allowed (otherwise 400).
 
 ## 4. Trust Boundaries
-
-USER-CONTROLLED SIDE APPLICATION-CONTROLLED SIDE
-Browser input ───── HTTP request ─────▶ REST API ─────▶ Data
- ▲ │
- └────────── JSON response ◀────────────┘
-
-Explanation:
-**User-controlled side:** AKA the browser, the form fields, the buttons, and
-every HTTP request that leaves the browser. The user can change any of
-it (browser dev tools, curl, Postman). When they a HTTP request is passed it is deemed untrusted until it is validated.
-**Application-controlled side:** AKA the REST API and the data layer. Only
-the code base runs here, and the data is reachable only through the API.
-**The boundary** is the HTTP request and follows rules:
-1. The API validates every request. Frontend checks are only for
- convenience, never for security.
+```
+USER-CONTROLLED SIDE                 APPLICATION-CONTROLLED SIDE
+Browser input ── HTTP request ──▶ REST API ──▶ Data
+      ▲                              │
+      └──────── JSON response ◀──────┘
+```
+1. The API validates every request. Frontend checks are only for convenience, never for security.
 2. The browser never talks to the data layer directly.
-3. The API returns only what the frontend needs, and never leaks
- internal errors or stack traces.
-4. The frontend shows issue text as plain text, never as HTML.
+3. The API returns only what the frontend needs and never leaks internal errors or stack traces.
+4. The frontend shows issue text as plain text (`textContent`), never as HTML.

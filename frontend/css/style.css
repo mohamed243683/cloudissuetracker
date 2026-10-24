@@ -52,7 +52,7 @@ input, textarea, select, button {
     }
 }
 
-/* Lab 2: spacing for dynamic content */
+/* Lab 2: spacing for dynamically generated content */
 #issues-list {
     display: grid;
     gap: 1rem;
@@ -65,15 +65,4 @@ input, textarea, select, button {
 #form-message {
     min-height: 1.25rem;
     font-weight: 600;
-}
-
-/* Lab 2 challenge: open vs resolved */
-.issue-card.status-open {
-    border-left: 4px solid #d9822b;
-}
-
-.issue-card.status-resolved {
-    border-left: 4px solid #2f9e5b;
-    background: #f3faf5;
-    color: #52606d;
 }

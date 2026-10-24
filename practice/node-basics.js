@@ -15,9 +15,3 @@ console.log(describeIssue(issue));
 console.log('Available priorities:', priorities);
 console.log('JSON representation:');
 console.log(JSON.stringify(issue, null, 2));
-
-// Part 9: object -> JSON text -> object
-const jsonText = JSON.stringify({ id: 'ISS-200', title: 'Example', priority: 'Low' });
-const objectAgain = JSON.parse(jsonText);
-console.log(jsonText);
-console.log(objectAgain.title);
