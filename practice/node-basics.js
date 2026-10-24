@@ -1,0 +1,23 @@
+const issue = {
+  id: 101,
+  title: 'Unable to access Wi-Fi',
+  priority: 'High',
+  status: 'Open'
+};
+
+const priorities = ['Low', 'Medium', 'High'];
+
+function describeIssue(item) {
+  return `${item.id}: ${item.title} [${item.priority}] - ${item.status}`;
+}
+
+console.log(describeIssue(issue));
+console.log('Available priorities:', priorities);
+console.log('JSON representation:');
+console.log(JSON.stringify(issue, null, 2));
+
+// Part 9: object -> JSON text -> object
+const jsonText = JSON.stringify({ id: 'ISS-200', title: 'Example', priority: 'Low' });
+const objectAgain = JSON.parse(jsonText);
+console.log(jsonText);
+console.log(objectAgain.title);
