@@ -4,7 +4,15 @@
     "title": "Unable to access Wi-Fi",
     "description": "Connection fails in the teaching lab.",
     "priority": "High",
-    "status": "Open",
+    "status": "Resolved",
     "createdAt": "2026-09-01T09:00:00.000Z"
+  },
+  {
+    "id": "a657e487-78e7-490f-acad-4473eeae25cf",
+    "title": "Printer unavailable",
+    "description": "The shared printer is not responding.",
+    "priority": "Medium",
+    "status": "Open",
+    "createdAt": "2026-10-24T15:42:21.417Z"
   }
 ]
