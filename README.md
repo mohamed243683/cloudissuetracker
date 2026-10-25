@@ -1,4 +1,4 @@
-# Cloud Issue Tracker (Lab 5 complete project)
+# Cloud Issue Tracker 
 
 A small full-stack app: a static HTML/CSS/JS frontend, an Express REST API and a Neon Postgres database.
 Both the frontend and the API deploy to Vercel.
